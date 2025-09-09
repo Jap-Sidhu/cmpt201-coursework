@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main(void) {
+  printf("Last login: Fri Sep  5 00:19:32 on ttys005
+japdeepsidhu@Mac-2 ~ % cd ~/cmpt210-coursework
+cd: no such file or directory: /Users/japdeepsidhu/cmpt210-coursework
+japdeepsidhu@Mac-2 ~ % cd ~/units/02-tools/a0-Jap-Sidhu
+cd: no such file or directory: /Users/japdeepsidhu/units/02-tools/a0-Jap-Sidhu
+japdeepsidhu@Mac-2 ~ % cd ~/units/02-tools
+cd: no such file or directory: /Users/japdeepsidhu/units/02-tools
+japdeepsidhu@Mac-2 ~ % cat ~/.ssh/id_ed25519.pub
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM02jHKpFdG4lp9RNTAOm/kxQEg+pVKsT+/ZTfPrB9Q6 japdeep385@gmail.com
+japdeepsidhu@Mac-2 ~ % clear
+#include <stdio.h>
+
+int main(){
+  printf("Hello CMPT201 world!\n");
+
+  return 0;
+
+}
