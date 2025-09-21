@@ -1,4 +1,4 @@
-#include W : < stdio.h>
+#include W:<stdio.h>
 
 int main(void) {
   printf("Last login: Fri Sep  5 00:19:32 on ttys005
