@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/wait.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 
 int main() {
   printf("Hello World!\n");
@@ -11,12 +11,12 @@ int main() {
   if (pid > 0) {
     int wstatus = 0;
 
-    if (waitpid(pid, &wstatus, 0) == -1) {
+    if (waitpid(pid, &wstatus, 0) == -1){
       perror("waitpid");
       exit(EXIT_FAILURE);
     }
   } else if (pid == 0) {
-    execl("/usr/bin/", "ls", NULL);
+    execl("/usr/bin/", "ls" , NULL);
   }
   return 0;
 }
