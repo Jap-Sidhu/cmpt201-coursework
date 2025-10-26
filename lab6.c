@@ -1,0 +1,155 @@
+/*
+ * CMPT 201 - Lab 6
+ * Author: Japdeep Sidhu
+ * Description:
+ *  - Task 1: Fix and debug example_1.c
+ *  - Task 2: Fix and debug example_2.c with assertions
+ */
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+/* ===========================================================
+   Task 1: Corrected example_1.c
+   =========================================================== */
+
+void print_array(int *arr, int size) {
+  for (int i = 0; i < size; i++) {
+    printf("%d ", arr[i]);
+  }
+  printf("\n");
+}
+
+void fill_array(int *arr, int size) {
+  for (int i = 0; i < size; i++) {
+    arr[i] = i * 2; // simple pattern
+  }
+}
+
+int main_example1(void) {
+  printf("=== Example 1: Debugging Practice ===\n");
+
+  int size = 5;
+  int *numbers = malloc(size * sizeof(int));
+  if (numbers == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    return 1;
+  }
+
+  fill_array(numbers, size);
+  print_array(numbers, size);
+
+  free(numbers);
+  return 0;
+}
+
+/* ===========================================================
+   Task 2: Corrected example_2.c with ASSERT() macro
+   =========================================================== */
+
+/* Enhanced ASSERT macro to print file & line info */
+#define ASSERT(cond, msg)                                                      \
+  if (!(cond)) {                                                               \
+    fprintf(stderr, "ASSERT failed: %s\nFile: %s Line: %d\n", msg, __FILE__,   \
+            __LINE__);                                                         \
+    exit(EXIT_FAILURE);                                                        \
+  }
+
+/* Optional: ASSERT_EQUALS macro */
+#define ASSERT_EQUALS(expected, actual, msg)                                   \
+  if ((expected) != (actual)) {                                                \
+    fprintf(stderr,                                                            \
+            "ASSERT_EQUALS failed: %s\nExpected: %d Actual: %d\nFile: %s "     \
+            "Line: %d\n",                                                      \
+            msg, (expected), (actual), __FILE__, __LINE__);                    \
+    exit(EXIT_FAILURE);                                                        \
+  }
+
+/* Linked list node definition */
+struct node {
+  int value;
+  struct node *next;
+};
+
+/* Structure storing list info */
+struct list_info {
+  struct node *head;
+  int sum;
+};
+
+/* Function to create a new node */
+struct node *create_node(int value) {
+  struct node *n = malloc(sizeof(struct node));
+  if (!n) {
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(EXIT_FAILURE);
+  }
+  n->value = value;
+  n->next = NULL;
+  return n;
+}
+
+/* Function to add a node to the front of the list */
+void push_front(struct list_info *info, int value) {
+  struct node *n = create_node(value);
+  n->next = info->head;
+  info->head = n;
+  info->sum += value;
+}
+
+/* Function to compute sum of all nodes manually */
+int list_sum(struct node *head) {
+  int sum = 0;
+  while (head != NULL) {
+    sum += head->value;
+    head = head->next;
+  }
+  return sum;
+}
+
+/* Function to free the list */
+void free_list(struct node *head) {
+  while (head != NULL) {
+    struct node *tmp = head;
+    head = head->next;
+    free(tmp);
+  }
+}
+
+/* Example 2 main function */
+int main_example2(void) {
+  printf("\n=== Example 2: Assertions and Debugging ===\n");
+
+  struct list_info info;
+  info.head = NULL;
+  info.sum = 0;
+
+  /* Build list: [10 -> 20 -> 30] */
+  push_front(&info, 30);
+  push_front(&info, 20);
+  push_front(&info, 10);
+
+  /* Calculate sum again using independent function */
+  int computed_sum = list_sum(info.head);
+
+  /* Assert equality between computed and stored sum */
+  ASSERT_EQUALS(info.sum, computed_sum,
+                "Sum mismatch between tracked and computed values");
+
+  printf("Sum check passed! info.sum = %d, computed = %d\n", info.sum,
+         computed_sum);
+
+  free_list(info.head);
+  return 0;
+}
+
+/* ===========================================================
+   Combined entry point for lab6.c
+   =========================================================== */
+
+int main(void) {
+  int result1 = main_example1();
+  int result2 = main_example2();
+  return result1 + result2;
+}
